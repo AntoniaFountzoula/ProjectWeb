@@ -1,0 +1,31 @@
+body{
+    font-size: 110%;
+    min-height: 100%;
+    width: 100%;
+    padding-top: 100px;
+    margin-top: 40px;
+    text-align: center;
+    font-family: Verdana,Helvetica,sans-serif;
+}
+.header {
+    width: 35vw;
+    margin: 70px auto 0px;
+    margin-left: 31.5vw;
+    color: White;
+    background: forestgreen;
+    text-align: center;
+    border: 1px solid black;
+    border-bottom: none;
+    border-radius: 10px 10px 0px 0px;
+    padding: 20px;
+}
+form, .content {
+    width: 35vw;
+    margin: auto ;
+    margin-left: 31.5vw;
+    padding: 20px;
+    border: 1px solid black;
+    background: palegreen;
+ /*   border-radius: 0px 0px 10px 10px;*/
+}
+
