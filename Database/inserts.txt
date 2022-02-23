@@ -1,0 +1,4 @@
+INSERT INTO user VALUES('1','user','olgac','olgakivretakou@gmail.com','coviiiid');
+INSERT INTO store VALUES('13','Black Sheep','3','ellinos 5','1','2');
+INSERT INTO covidcase VALUES ('9','Black Sheep','2021-21-11 13:17:30');
+INSERT INTO visit VALUES('','2021-20-11 13:00:00','1','13');

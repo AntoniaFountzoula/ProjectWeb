@@ -1,0 +1,59 @@
+DROP DATABASE IF EXISTS project_web;
+CREATE DATABASE IF NOT EXISTS project_web;
+
+USE project_web;
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+user_id INT NOT NULL AUTO_INCREMENT,
+user_type VARCHAR(255) NOT NULL,
+username VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+PRIMARY KEY(user_id)
+);
+
+DROP TABLE IF EXISTS covidcase;
+CREATE TABLE covidcase (
+case_id INT NOT NULL,
+store_name VARCHAR(255) NOT NULL,
+test_date DATETIME NOT NULL,
+PRIMARY KEY(case_id),
+FOREIGN KEY(case_id) REFERENCES user(user_id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS store;
+CREATE TABLE store (
+store_id INT NOT NULL,
+name_store VARCHAR(255) NOT NULL,
+time_spent INT NOT NULL,
+store_add VARCHAR(255) NOT NULL,
+longitude FLOAT NOT NULL,
+latitude FLOAT NOT NULL,
+PRIMARY KEY(store_id),
+FOREIGN KEY(name_store) REFERENCES covidcase(store_name)
+ON DELETE CASCADE ON UPDATE CASCADE
+INSERT INTO covidcase VALUES ('9','Black Sheep','2021-21-11 13:17:30'););
+
+DROP TABLE IF EXISTS visit;
+CREATE TABLE visit (
+visit_id INT NOT NULL AUTO_INCREMENT,
+date_of DATETIME NOT NULL,
+id_user INT NOT NULL,
+id_store INT NOT NULL,
+PRIMARY KEY(visit_id),
+FOREIGN KEY(id_user) REFERENCES user(user_id),
+FOREIGN KEY(id_store) REFERENCES store(store_id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS category;
+CREATE TABLE category (
+id_category INT NOT NULL,
+description TEXT NOT NULL,
+id_cat ENUM ('cafe','restaurant','study','bar') DEFAULT NULL,
+PRIMARY KEY(id_category),
+FOREIGN KEY(id_cat) REFERENCES category(id_category)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
