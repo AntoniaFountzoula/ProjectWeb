@@ -1,0 +1,76 @@
+body{
+    position:relative;
+    margin:auto;
+    font-size: 90%;
+    height: 100vh;
+    text-align: center;
+    font-family: 'Fjalla One', sans-serif;
+    background-image: url('../images/kobu1.jpg');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: cover;
+}
+.title {
+    color:black;
+    font-size:180%;
+    margin:40px 0;
+
+}
+.subtitle {
+    font-size: 120%;
+    margin: 5px auto 0;
+
+}
+.description {
+    column:1;
+    text-align: center;
+    border-right:1px solid rgba(0,0,0,0.1);
+    padding:10px 25px 10px 10px;
+}
+.container {
+    position:absolute;
+    top:50%;
+    left:50%;
+    display:grid;
+    grid-template-columns:40% auto;
+    width:50vw;
+    padding:8px 15px;
+    margin: auto;
+    color: black;
+    backdrop-filter: blur(2px);
+    text-align:center;
+    box-shadow: 0 0 10px 1px rgba(0,0,0,0.1);
+    transform: translate(-50%,-50%);
+}
+
+form, .content {
+    display: block;
+    margin: auto;
+    border: 1px #eee;
+}
+
+label{
+    display:inline;
+}
+
+label i{
+    padding:15px;
+}
+
+input{
+    padding:4px;
+    border-radius:0;
+    border:0;
+    border-bottom:1px solid black;
+    background-color:transparent;
+    color:black;
+}
+
+p input.submit:hover{
+    background-color:black;
+    color:white;
+}
+
+.material-icons{
+    vertical-align:middle;
+}
