@@ -81,7 +81,7 @@ if (!isset($_SESSION['user']))
 
 
         <div class=" w-75 p-3">
-            <div id="map"  style="width: 800px; height: 400px; "></div>
+            <div id="map"  style="width: 960px; height: 650px; "></div>
         </div>
 
 </div>
@@ -91,18 +91,31 @@ if (!isset($_SESSION['user']))
 
 <script>
 navigator.geolocation.getCurrentPosition(function (location){
-    // Initialize the map and specify the max zoom of the map
-    const map = L.map('map').locate({setView: true, maxZoom: 16});
-
+    // Initialize the map
+    const map = L.map('map');
     var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
+
+
     // Get the tile layer from OpenStreetMaps
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png?{foo}', {foo: 'bar', attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+        {
+            zoom:13,
+            // Set the attribution for OpenStreetMaps
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }
+    ).addTo(map);
 
     // Set the view of the map
     // with the latitude, longitude and the zoom value
-    map.setView(latlng, 16);
+    map.setView(latlng, 13);
 
-    L.marker(latlng,{tile:'Me'}).addTo(map).bindPopup('<b>Hello world!</b><br />I am a popup.');
+    // Show a market at the position
+    let myposition  = L.marker(latlng).addTo(map);
+
+    // Bind popup to the marker with a popup
+    myposition.bindPopup("Here I am");
+    L.circle(latlng,{radius: 5000}).addTo(map);
+    L.circle(latlng,{radius: 20, color: 'green', fillColor: '#00ff33', fillOpacity: 0.5}).addTo(map);
 
     }
 

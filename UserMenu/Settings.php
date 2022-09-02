@@ -50,7 +50,6 @@ if (!isset($_SESSION['user']))
     <a href="#B1">Password</a>
     <a href="#B2">Username</a>
     <a href="#B3">Record My Visits</a>
-    <a href="#B4">My applications </a>
 </div>
 
 </body>
