@@ -32,7 +32,7 @@ if (isset($_POST['Login'])) {
               {
                     $_SESSION['user'] = $logged_in_user['username'];
                     $_SESSION['Id'] = $logged_in_user['user_id'];
-                    header('Location: ../AdminMenu/index.html');
+                    header('Location: ../AdminMenu/index.php');
               }
               else
               {
