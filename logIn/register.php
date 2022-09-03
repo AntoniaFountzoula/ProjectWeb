@@ -14,7 +14,6 @@ if ($conn->connect_error) {
 $email_input= $_REQUEST['email'];
 $Username= $_REQUEST['username'];
 $Password=$_REQUEST['password'];
-
 //Check if the user already exist
 $query1="SELECT email FROM user where email= '$email_input'";
 $results = mysqli_query($conn, $query1);
