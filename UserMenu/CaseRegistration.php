@@ -14,7 +14,7 @@ if (!isset($_SESSION['user']))
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <title>Title</title>
+    <title>Covid-19FinDer</title>
     <link  rel="stylesheet">
 </head>
 <body>
@@ -46,13 +46,19 @@ if (!isset($_SESSION['user']))
     </div>
 </nav>
 
+<div class="container">
+    <form  method="post" action="../logIn/singIn.php">
+        <div class="mb-3 col-6">
+            <label for="datetest" class="form-label"> Date tested</label>
+            <input type="datetime-local" class="form-control"  name="datetest" id="datetest" aria-describedby="datelHelp">
+            <div id="datelHelp" class="form-text">Please, choose the date that you tested positive.</div>
+            <div class=" text-end mb-2">
+                <input type="submit"  name="covidcase" class="btn btn-primary"/>
+            </div>
+        </div>
+    </form>
+</div>
 
-<form  method="post" id="A2" >
-  <p>
-    <label>Date: <input type= "datetime-local" required /></label>
-  </p>
-  <input type="submit" value="Submit"/>
-</form>
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

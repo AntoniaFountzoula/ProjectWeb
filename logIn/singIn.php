@@ -13,6 +13,7 @@ $username= "";
 $password="";
 $errors = array();
 
+/*--------------------------- Log in Start------------------------------- */
 if (isset($_POST['Login'])) {
 
     $Username = $_REQUEST['username'];
@@ -21,21 +22,16 @@ if (isset($_POST['Login'])) {
     $results = mysqli_query($conn, $query);
     $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-    if (mysqli_num_rows($results) == 1)
-    {
+    if (mysqli_num_rows($results) == 1) {
         // check if user is admin or user
         $logged_in_user = mysqli_fetch_assoc($results);
-        switch ($logged_in_user['user_type'])
-        {
+        switch ($logged_in_user['user_type']) {
             case 'admin':
-              if(strpos($user_agent,'Mobi') == false)
-              {
+                if (strpos($user_agent, 'Mobi') == false) {
                     $_SESSION['user'] = $logged_in_user['username'];
                     $_SESSION['Id'] = $logged_in_user['user_id'];
                     header('Location: ../AdminMenu/index.php');
-              }
-              else
-              {
+                } else {
                     echo "<script>                 
                     alert('Please connect from desktop!');
                     window.location.href='logIn.html';
@@ -45,17 +41,31 @@ if (isset($_POST['Login'])) {
                 break;
             case 'user':
                 $_SESSION['user'] = $logged_in_user['username'];
-                $_SESSION['Id']=$logged_in_user['user_id'];
+                $_SESSION['Id'] = $logged_in_user['user_id'];
                 header('Location:../UserMenu/UserMenu.php');
                 break;
         }
-    }
-    else
-    {
+    } else {
         echo "Something is wrong. Check your password and your username";
         mysqli_close($conn);
-        header("Location:logIn.html" );
+        header("Location:logIn.html");
     }
 }
+ /*--------------------------- Log in End------------------------------- */
+
+
+/*--------------------------- Case Registration--------------------------- */
+    if (isset($_POST['covidcase']))
+    {
+        $date1 = $_REQUEST['datetest'];
+        $case_id = $_SESSION['Id'];
+        $sql1 = "INSERT INTO covidcase(CASE_ID, STORE_NAME, TEST_DATE ) VALUES ('$case_id' ,'', '$date1')";
+
+        if(!mysqli_query($conn, $sql1))
+        {
+            echo $sql1;
+        }
+    }
+
 
 
