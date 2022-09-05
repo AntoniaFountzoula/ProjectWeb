@@ -47,13 +47,13 @@ if (!isset($_SESSION['user']))
 </nav>
 
 <div class="container">
-    <form  method="post" action="../logIn/singIn.php">
+    <form  method="post" action="userFunction.php">
         <div class="mb-3 col-6">
             <label for="datetest" class="form-label"> Date tested</label>
             <input type="datetime-local" class="form-control"  name="datetest" id="datetest" aria-describedby="datelHelp">
             <div id="datelHelp" class="form-text">Please, choose the date that you tested positive.</div>
             <div class=" text-end mb-2">
-                <input type="submit"  name="covidcase" class="btn btn-primary"/>
+                <input type="submit"  name="covidcase" class="btn btn-primary" value="Submit"/>
             </div>
         </div>
     </form>

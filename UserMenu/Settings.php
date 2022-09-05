@@ -20,7 +20,7 @@ if (!isset($_SESSION['user']))
 <body >
 <nav class="navbar navbar-expand-lg navbar-light ">
     <div class="container-fluid ps-0">
-        <span class="px-0 mb-0 h2"><img class="navbar-brand" src="../icons/covid-19.png"  width="50;" alt="navigation-icon">Finder </span>
+        <span class="px-5 mb-0 h2"><img class="navbar-brand" src="../icons/covid-19.png"  width="50;" alt="navigation-icon">Finder </span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span ><img src="../icons/menu.svg" alt="menu icon"></span>
         </button>
@@ -66,7 +66,7 @@ if (!isset($_SESSION['user']))
     <div class="col-md-4">
         <div class="tab-content">
             <div class="tab-pane  active" id="nav-pass" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
-                <form method="post" action="Settings.php">
+                <form method="post" action="userFunction.php">
                     <div class="form-group">
                         <input type="password" id="formControlDefault" class="form-control" name="ConfirmPassword"  placeholder="Type Current password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" />
                         <label class="form-label" for="formControlDefault"></label>
@@ -83,14 +83,15 @@ if (!isset($_SESSION['user']))
             </div>
             <div class="tab-pane"  id="nav-user" role="tabpanel" aria-labelledby="username-tab" tabindex="0">
                 <div class="form-group">
-                    <input type="username" id="formControlDefault" class="form-control" name="CurrentUsername"  placeholder="Type Current username">
+                    <label class="form-label" for="formControlDefault"> Current Usename</label>
+                    <input type="username" id="formControlDefault" class="form-control" name="CurrentUsername" value="<?php echo $_SESSION['user']; ?>" >
                     <label class="form-label" for="formControlDefault"></label>
                 </div>
                 <div class="form-group">
                     <input type="username" id="formControlDefault" class="form-control" name="newUsername"  placeholder="Enter new username" >
                     <label class="form-label" for="formControlDefault"></label>
                 </div>
-                <input type="submit"  name="passup" class="btn btn-primary" value="Submit">
+                <input type="submit"  name="usernamesup" class="btn btn-primary" value="Submit">
             </div>
             <div class="tab-pane"  id="nav-check" role="tabpanel" aria-labelledby="check-tab" tabindex="0">
                 <table class="table align-middle mb-0 bg-white">

@@ -54,18 +54,7 @@ if (isset($_POST['Login'])) {
  /*--------------------------- Log in End------------------------------- */
 
 
-/*--------------------------- Case Registration--------------------------- */
-    if (isset($_POST['covidcase']))
-    {
-        $date1 = $_REQUEST['datetest'];
-        $case_id = $_SESSION['Id'];
-        $sql1 = "INSERT INTO covidcase(CASE_ID, STORE_NAME, TEST_DATE ) VALUES ('$case_id' ,'', '$date1')";
 
-        if(!mysqli_query($conn, $sql1))
-        {
-            echo $sql1;
-        }
-    }
 
 
 
