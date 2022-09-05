@@ -48,70 +48,74 @@ if (!isset($_SESSION['user']))
 
 
 
-<div class="container ps-0 m-0">
+<div class="row">
+    <div class="col-md-4">
+        <ul class="nav flex-column nav-tabs" id="setTab" role="tablist" aria-orientation="vertical" >
+            <li class="nav-item">
+                <a class="nav-link active" id="password-tab" data-bs-toggle="tab" href="#nav-pass" role="tabpanel" aria-controls="nav-pass"  aria-selected="true">Change my password</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="username-tab" data-bs-toggle="tab" href="#nav-user" role="tabpanel" aria-controls="nav-user" aria-selected="false">Change my Username</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="check-tab" data-bs-toggle="tab" href="#nav-check" role="tabpanel" aria-controls="nav-check" aria-selected="false">Check my visits</a>
+            </li>
+        </ul>
+    </div>
 
-<div  class="btn-group">
-    <a class="btn btn-secondary" data-bs-toggle="collapse"  role="button" aria-expanded="false"href="#item-1">Username</a>
-    <a class="btn btn-warning" data-bs-toggle="collapse"  role="button" aria-expanded="false" href="#item-2">Password</a>
-    <a class="btn btn-info" data-bs-toggle="collapse" role="button" aria-expanded="false" href="#item-3">List of my visits</a>
+    <div class="col-md-4">
+        <div class="tab-content">
+            <div class="tab-pane  active" id="nav-pass" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
+                <form method="post" action="Settings.php">
+                    <div class="form-group">
+                        <input type="password" id="formControlDefault" class="form-control" name="ConfirmPassword"  placeholder="Type Current password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" />
+                        <label class="form-label" for="formControlDefault"></label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="formControlDefault" class="form-control" name="newPassword"  placeholder="Type new password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" />
+                        <label class="form-label" for="formControlDefault"></label>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="formControlDefault" class="form-control" name="repeatNewPassword"  placeholder="Confirm new password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}" />
+                        <label class="form-label" for="formControlDefault"></label>
+                    </div>
+                    <input type="submit"  name="pasSup" class="btn btn-primary" value="Submit">
+            </div>
+            <div class="tab-pane"  id="nav-user" role="tabpanel" aria-labelledby="username-tab" tabindex="0">
+                <div class="form-group">
+                    <input type="username" id="formControlDefault" class="form-control" name="CurrentUsername"  placeholder="Type Current username">
+                    <label class="form-label" for="formControlDefault"></label>
+                </div>
+                <div class="form-group">
+                    <input type="username" id="formControlDefault" class="form-control" name="newUsername"  placeholder="Enter new username" >
+                    <label class="form-label" for="formControlDefault"></label>
+                </div>
+                <input type="submit"  name="passup" class="btn btn-primary" value="Submit">
+            </div>
+            <div class="tab-pane"  id="nav-check" role="tabpanel" aria-labelledby="check-tab" tabindex="0">
+                <table class="table align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                    <tr>
+                        <th>Last Visit</th>
+                        <th>Location</th>
+                        <th>Last registered positive test </th>
+            </div>
+        </div>
+    </div>
+    </form>
+    <script>
+        const triggerTabList = document.querySelectorAll('#setTab button')
+        triggerTabList.forEach(triggerEl => {
+            const tabTrigger = new bootstrap.Tab(triggerEl)
 
+            triggerEl.addEventListener('click', event => {
+                event.preventDefault()
+                tabTrigger.show()
+            })
+        })
+    </script>
 </div>
-    <div class="collapse" id="item-1">
-        <div class="card card-body">
-            <form method="post">
-                <div class="mb-3 row">
-                    <label for="staticUsername" class="col-sm-2 col-form-label">Current Username</label>
-                    <div class="col-sm-10">
-                        <input type="text" readonly class="form-control-plaintext" id="staticUsername" value=<?php echo $_SESSION['user'] ?>>
-                    </div>
-                </div>
-                <div class="mb-3 row">
-                    <label for="inputUsername" class="col-sm-2 col-form-label"> New Username</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputUsername">
-                    </div>
-                </div>
-                <div class=" text-end mb-2">
-                    <input type="submit"  name="newUsername" class="btn btn-primary"/>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="collapse pt-2" id="item-2">
-        <div class="card card-body">
-            <form method="post">
-
-                <div class="mb-3 row">
-                    <label for="inputPassword" class="col-sm-2 col-form-label"> New Password</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" id="inputPassword" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}">
-                    </div>
-                </div>
-
-                <div class="mb-3 row">
-                    <label for="testpassword" class="col-sm-2 col-form-label"> Confirm password </label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" name="testpassword" id="testpassword" aria-describedby="passwordHelp" required>
-                        <div id="tpasswordHelp" class="form-text">Write again the new password.</div>
-                    </div>
-                </div>
-                <div class=" text-end mb-2">
-                    <input type="submit"  name="newPassword" class="btn btn-primary"/>
-                </div>
-            </form>
-
-        </div>
-    </div>
-
-    <div class="collapse pt-2" id="item-3">
-        <div class="card card-body">
-            A table with all the visits of the user.
-            Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-        </div>
-    </div>
-
-</div>
+</body>
 
 </body>
 </html>
