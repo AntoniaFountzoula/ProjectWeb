@@ -74,43 +74,20 @@ if (isset($_POST['usernamesup']))
 
 
 /*--------------------------- Case Registration--------------------------- */
-if (isset($_POST['covidcase']))
+
+
+/*if (isset($_POST['covidcase']))
 {
     $date1 = $_REQUEST['datetest'];
     $case_id = $_SESSION['Id'];
     $sql1 = "INSERT INTO covidcase(CASE_ID, TEST_DATE ) VALUES ('$case_id' , '$date1')";
-    $sql2 ="SELECT test_date FROM covidcase WHERE case_id ='$case_id' ";
-    $resu = mysqli_query($conn,$sql2);
-    $ans= true;
-    if(mysqli_num_rows($resu) > 0)
-    {
-        $date_sub= date_create($date1);
-        while ($row = mysqli_fetch_assoc($resu))
+
+
+        if(mysqli_query($conn,$sql1))
         {
-            $date2= ($row['test_date']);
-            $diff = abs(strtotime($date2) - strtotime($date1));
-            $diff_days= $diff/(24*60*60);
-            if($diff_days <= 14)
-            {
-                $ans=false;
-                break;
-
-            }
+            header("Location: CaseRegistration.php");
         }
-    }
 
-    if($ans)
-    {
-        mysqli_query($conn,$sql1);
-
-    }
-    else{
-        echo "<script>                 
-                    alert('14 days must transpire until you submit your next Covid-19 diagnosis!');
-                    window.location.href='CaseRegistration.php';
-                    </script>";
-    }
-
-}
+}*/
 
 

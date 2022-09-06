@@ -9,11 +9,12 @@ if (!isset($_SESSION['user']))
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Covid-19FinDer</title>
     <link  rel="stylesheet">
 </head>
@@ -56,13 +57,13 @@ if (!isset($_SESSION['user']))
             </h2>
             <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                 <div class="accordion-body">
-                    <form  method="post" action="userFunction.php">
+                    <form  method="post" >
                         <div class="mb-3 col-6">
                             <label for="datetest" class="form-label"> Date tested</label>
                             <input type="datetime-local" class="form-control"  name="datetest" id="datetest" aria-describedby="datelHelp">
                             <div id="datelHelp" class="form-text">Please, choose the date that you tested positive.</div>
                             <div class=" text-end mb-2">
-                                <input type="submit"  name="covidcase" class="btn btn-primary" value="Submit"/>
+                                <button type="button"  name="covidcase" id="covidcase" class="btn btn-primary" onclick="check_day()"> Submit</button>
                             </div>
                         </div>
                     </form>
@@ -113,3 +114,34 @@ if (!isset($_SESSION['user']))
 </body>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+function check_day(){
+    let day= document.getElementById('datetest').value;
+    let showmessage= true;
+   $.ajax({
+        type:"post",
+        dataType:"json",
+        url: 'checkday.php',
+        data: {'test_date': day, 'id':'<?=$_SESSION['Id']?>'},
+        success: function(data) {
+            if((data.answer) == 'OK'){
+                console.log(data);
+
+            } else {
+                showmessage= false;
+            }
+        },
+       error: function (error){
+
+            console.log( error);
+       }
+    });
+if(!showmessage){
+    window.alert('14 days must transpire until you submit your next Covid-19 diagnosis!');
+}else{
+    window.alert('You have submit your diagnosis.');
+}
+    window.location.href='CaseRegistration.php';
+}
+</script>
