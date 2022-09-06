@@ -15,10 +15,10 @@ PRIMARY KEY(user_id)
 
 DROP TABLE IF EXISTS covidcase;
 CREATE TABLE covidcase (
-case_id INT NOT NULL,
-store_name VARCHAR(255) NOT NULL,
+row_num INT NOT NULL AUTO_INCREMENT,
 test_date DATETIME NOT NULL,
-PRIMARY KEY(case_id),
+case_id INT NOT NULL,
+PRIMARY KEY(row_num),
 FOREIGN KEY(case_id) REFERENCES user(user_id)
 ON DELETE CASCADE ON UPDATE CASCADE
 );
@@ -34,7 +34,7 @@ latitude FLOAT NOT NULL,
 PRIMARY KEY(store_id),
 FOREIGN KEY(name_store) REFERENCES covidcase(store_name)
 ON DELETE CASCADE ON UPDATE CASCADE
-INSERT INTO covidcase VALUES ('9','Black Sheep','2021-21-11 13:17:30'););
+);
 
 DROP TABLE IF EXISTS visit;
 CREATE TABLE visit (
