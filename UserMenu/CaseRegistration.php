@@ -46,18 +46,69 @@ if (!isset($_SESSION['user']))
     </div>
 </nav>
 
-<div class="container">
-    <form  method="post" action="userFunction.php">
-        <div class="mb-3 col-6">
-            <label for="datetest" class="form-label"> Date tested</label>
-            <input type="datetime-local" class="form-control"  name="datetest" id="datetest" aria-describedby="datelHelp">
-            <div id="datelHelp" class="form-text">Please, choose the date that you tested positive.</div>
-            <div class=" text-end mb-2">
-                <input type="submit"  name="covidcase" class="btn btn-primary" value="Submit"/>
+<div class="container pt-3">
+    <div class="accordion col-10 " id="accordionPanelsStayOpenExample">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                    Case Registration
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+                <div class="accordion-body">
+                    <form  method="post" action="userFunction.php">
+                        <div class="mb-3 col-6">
+                            <label for="datetest" class="form-label"> Date tested</label>
+                            <input type="datetime-local" class="form-control"  name="datetest" id="datetest" aria-describedby="datelHelp">
+                            <div id="datelHelp" class="form-text">Please, choose the date that you tested positive.</div>
+                            <div class=" text-end mb-2">
+                                <input type="submit"  name="covidcase" class="btn btn-primary" value="Submit"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </form>
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                    Possible contact with covid-19 case
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+                <div class="accordion-body">
+                    <p class="fst-italic"> The below table shows the if you have come in contact with covid-19 cases in the last 7 days</p>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-info">
+                            <tr>
+                                <th scope="col">Stores(PIOs)</th>
+                                <th scope="col">Date</th>
+                                <th scope="col"> Covid19-case</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>Mark</td>
+                                <td>Otto</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
 </div>
+
 
 </body>
 </html>
