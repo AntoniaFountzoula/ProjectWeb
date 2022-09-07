@@ -12,13 +12,13 @@
     {
         if(mysqli_query($conn,$sql1))
         {
-            echo json_encode(array("answer"=>'OK'));
+            echo json_encode(array("response"=>'OK'));
 
-        }else
-        {
-            echo json_encode(array("answer"=>'NOT'));
         }
-
+    }
+    else
+    {
+        echo json_encode(array("response"=>'NOT'));
     }
 
     mysqli_close($conn);

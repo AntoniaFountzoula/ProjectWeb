@@ -116,32 +116,30 @@ if (!isset($_SESSION['user']))
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <script>
-function check_day(){
-    let day= document.getElementById('datetest').value;
-    let showmessage= true;
-   $.ajax({
-        type:"post",
-        dataType:"json",
-        url: 'checkday.php',
-        data: {'test_date': day, 'id':'<?=$_SESSION['Id']?>'},
-        success: function(data) {
-            if((data.answer) == 'OK'){
-                console.log(data);
+function check_day() {
+    let day = document.getElementById('datetest').value;
 
-            } else {
-                showmessage= false;
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url: 'checkday.php',
+        data: {'test_date': day, 'id': '<?=$_SESSION['Id']?>'},
+        success: function (data) {
+
+            if (data.response == 'OK')
+            {
+              alert('You have submit your diagnosis.');
+            }
+            else
+            {
+               alert('14 days must transpire until you submit your next Covid-19 diagnosis!');
             }
         },
-       error: function (error){
+        error: function (error) {
 
-            console.log( error);
-       }
+            console.log(error);
+        }
     });
-if(!showmessage){
-    window.alert('14 days must transpire until you submit your next Covid-19 diagnosis!');
-}else{
-    window.alert('You have submit your diagnosis.');
-}
-    window.location.href='CaseRegistration.php';
+    window.location.href ='CaseRegistration.php';
 }
 </script>
