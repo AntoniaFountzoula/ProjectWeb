@@ -1,4 +1,5 @@
 <?php
+include('../logIn/singIn.php');
 // Create connection
 $conn = new mysqli("localhost", "root", "", "project_web");
 
@@ -6,6 +7,7 @@ $conn = new mysqli("localhost", "root", "", "project_web");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
+
 $userid = $_POST['id'];
 $new_username =$_POST['newUsername'];
 $sql = "UPDATE user SET username = '$new_username' WHERE user_id = $userid";
@@ -21,7 +23,7 @@ else
     if(mysqli_query($conn, $sql))
     {
         $_SESSION['user'] =$new_username;
-        echo json_encode(array('response' => 'OK'));
+        echo json_encode(array('response' => 'OK','name'=>$new_username));
     }
 }
 

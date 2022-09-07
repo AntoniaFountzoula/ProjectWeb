@@ -9,9 +9,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 session_start();
-$username= "";
-$password="";
-$errors = array();
 
 /*--------------------------- Log in Start------------------------------- */
 if (isset($_POST['Login'])) {

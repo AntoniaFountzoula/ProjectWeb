@@ -179,6 +179,7 @@ function changePassword()
 
               if(data.response=='OK')
               {
+
                   alert('Username change successfully!');
               }
               else{
