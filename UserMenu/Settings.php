@@ -49,7 +49,7 @@ if (!isset($_SESSION['user']))
 
 
 
-<div class="row">
+<div class="row pt-3">
     <div class="col-md-4">
         <ul class="nav flex-column nav-tabs" id="setTab" role="tablist" aria-orientation="vertical" >
             <li class="nav-item">
@@ -61,10 +61,13 @@ if (!isset($_SESSION['user']))
             <li class="nav-item">
                 <a class="nav-link" id="check-tab" data-bs-toggle="tab" href="#nav-check" role="tabpanel" aria-controls="nav-check" aria-selected="false">Check my visits</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" id="cases-tab" data-bs-toggle="tab" href="#nav-cases" role="tabpanel" aria-controls="nav-cases" aria-selected="false">Check my cases registration</a>
+            </li>
         </ul>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-4 ">
         <div class="tab-content">
             <div class="tab-pane  active" id="nav-pass" role="tabpanel" aria-labelledby="password-tab" tabindex="0">
                 <form method="post" >
@@ -100,20 +103,42 @@ if (!isset($_SESSION['user']))
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
                     <tr>
-                        <th>Last Visit</th>
+                        <th>Visit</th>
                         <th>Location</th>
-                        <th>Last registered positive test </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+
+            <div class="tab-pane"  id="nav-cases" role="tabpanel" aria-labelledby="cases-tab" tabindex="0">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead  id="table_my_case">
+                        <tr class="table-info">
+                            <th scope="col">#</th>
+                            <th scope="col">Date tasted</th>
+                        </tr>
+                        </thead>
+
+                        <tbody id="table_my_case">
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
+
     </div>
 
 </div>
 </body>
+
 </html>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
+    show_table_my_case();
     const triggerTabList = document.querySelectorAll('#setTab button')
     triggerTabList.forEach(triggerEl => {
         const tabTrigger = new bootstrap.Tab(triggerEl)
@@ -123,6 +148,35 @@ if (!isset($_SESSION['user']))
             tabTrigger.show()
         })
     })
+
+
+    function show_table_my_case()
+    {
+        var html;
+
+
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: 'tableCase.php',
+            success: function (data) {
+                for(let i=0; i<data.length; i++)
+                {
+                    html+='<tr> <th scope="row">'+(i+1)+'</th>';
+                    html+='<td>'+data[i].test_date +'</td> </tr>';
+
+                }
+                if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td>You have not submitted any covid-19 diagnosis </td> </tr>'; }
+                $("#table_my_case").append(html);
+
+            },
+
+        });
+
+
+    }
+
+
 
 
 function changePassword()
