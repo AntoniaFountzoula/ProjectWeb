@@ -26,16 +26,20 @@ navigator.geolocation.getCurrentPosition(function (location) {
     // L.circle(latlng,{radius: 20, color: 'green', fillColor: '#00ff33', fillOpacity: 0.5}).addTo(map);
 
     $.ajax({
-        url:'specific.json',
+        type: 'post',
+        url:'caseEntry.php',
         dataType: 'json',
-        error: function (response){
-            var arr =response.responseText;
-            console.log(response)
-            for(var i = 0 ; i < arr.length; i++)
+        success: function (response){
+            //var response =arr.responseText;
+            console.log(response.length)
+            for(var i = 0 ; i < response.length; i++)
             {
-                var xy= new L.LatLng(arr[i].lat, arr[i].lng);
+                var xy= new L.LatLng(response[i].lat, response[i].lng);
                 L.marker(xy).addTo(map);
             }
+        },
+        error:function (error){
+            console.log(error);
         }
     });
 });

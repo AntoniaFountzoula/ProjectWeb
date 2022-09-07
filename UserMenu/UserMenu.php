@@ -28,7 +28,7 @@ if (!isset($_SESSION['user']))
             crossorigin="">
     </script>
 
-    <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery/jquery-1.7.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="map.js"></script>
 
     <title>Covid-19FinDer</title>
