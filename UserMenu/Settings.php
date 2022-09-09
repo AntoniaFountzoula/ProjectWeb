@@ -59,7 +59,7 @@ if (!isset($_SESSION['user']))
                 <a class="nav-link" id="username-tab" data-bs-toggle="tab" href="#nav-user" role="tabpanel" aria-controls="nav-user" aria-selected="false">Change my Username</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="check-tab" data-bs-toggle="tab" href="#nav-check" role="tabpanel" aria-controls="nav-check" aria-selected="false">Check my visits</a>
+                <a class="nav-link" id="visit-tab" data-bs-toggle="tab" href="#nav-check" role="tabpanel" aria-controls="nav-check" aria-selected="false">Check my visits</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="cases-tab" data-bs-toggle="tab" href="#nav-cases" role="tabpanel" aria-controls="nav-cases" aria-selected="false">Check my cases registration</a>
@@ -89,7 +89,7 @@ if (!isset($_SESSION['user']))
             <div class="tab-pane"  id="nav-user" role="tabpanel" aria-labelledby="username-tab" tabindex="0">
               <form>
                   <div class="form-group pb-3">
-                      <label class="form-label" for="formControlDefault"> Current Usename</label>
+                      <label class="form-label" for="formControlDefault"> Current Username</label>
                       <input type="text" id="formControlDefault" class="form-control"  value="<?php echo $_SESSION['user']; ?>" >
                   </div>
                   <div class="form-group">
@@ -99,14 +99,19 @@ if (!isset($_SESSION['user']))
                   <button type="submit"  name="usernamesup" class="btn btn-primary" onclick="changeUsername()"> Submit</button>
               </form>
             </div>
-            <div class="tab-pane"  id="nav-check" role="tabpanel" aria-labelledby="check-tab" tabindex="0">
+            <div class="tab-pane" id="nav-check" role="tabpanel" aria-labelledby="visit-tab" tabindex="0">
                 <table class="table align-middle mb-0 bg-white">
                     <thead class="bg-light">
-                    <tr>
+                    <tr class="table-info">
                         <th>Visit</th>
                         <th>Location</th>
+                        <th>Date</th>
                     </tr>
                     </thead>
+                    <tbody id="table_my_visits">
+
+                    </tbody>
+
                 </table>
             </div>
 
@@ -138,7 +143,9 @@ if (!isset($_SESSION['user']))
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
-    show_table_my_case();
+
+    $("#cases-tab").click(function () {show_table_my_case() } );
+    //$("#visit-tab").click(function () {show_table_my_visits() } );
     const triggerTabList = document.querySelectorAll('#setTab button')
     triggerTabList.forEach(triggerEl => {
         const tabTrigger = new bootstrap.Tab(triggerEl)
@@ -149,6 +156,27 @@ if (!isset($_SESSION['user']))
         })
     })
 
+    function show_table_my_visits()
+    {
+        let html;
+        $.ajax({
+            type: "post",
+            dataType: "json",
+            url: '../UserMenu/actions/tableVisits.php',
+            success: function (data) {
+                for(let i=0; i<data.length; i++)
+                {
+                    html+='<tr> <th scope="row">'+(i+1)+'</th>';
+                    html+='<td>'+data[i].name_store +'</td>'+'<td>'+data[i].date_of +'</td> </tr>';
+
+                }
+                if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td>You have not submitted any visit</td> </tr>'; }
+                $("#table_my_visits").append(html);
+
+            },
+
+        });
+    }
 
     function show_table_my_case()
     {
@@ -166,7 +194,7 @@ if (!isset($_SESSION['user']))
                     html+='<td>'+data[i].test_date +'</td> </tr>';
 
                 }
-                if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td>You have not submitted any covid-19 diagnosis </td> </tr>'; }
+                if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td>You have not submitted any Covid-19 diagnosis </td> </tr>'; }
                 $("#table_my_case").append(html);
 
             },
@@ -191,9 +219,9 @@ function changePassword()
         'id': '<?=$_SESSION['Id']?>'
     };
 
-   //var showmessage = true;
 
-    if (repeat != newpassword) {
+
+    if (repeat !== newpassword) {
         alert('Passwords do not match. Try again!');
         window.location.href = 'Settings.php';
     }
@@ -204,7 +232,6 @@ function changePassword()
             url: '../UserMenu/actions/password.php',
             data: obj,
             success: function (data) {
-                //showmessage = (data.response == 'OK');
                 if (data.response === 'OK')
                 {
                     alert('Password changes successfully!');
