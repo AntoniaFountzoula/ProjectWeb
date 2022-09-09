@@ -1,5 +1,5 @@
 <?php
-include('../logIn/singIn.php');
+include('../../logIn/singIn.php');
 // Create connection
 $conn = new mysqli("localhost", "root", "", "project_web");
 

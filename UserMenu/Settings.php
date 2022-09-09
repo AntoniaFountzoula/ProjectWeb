@@ -158,7 +158,7 @@ if (!isset($_SESSION['user']))
         $.ajax({
             type: "post",
             dataType: "json",
-            url: 'tableCase.php',
+            url: '../UserMenu/actions/tableCase.php',
             success: function (data) {
                 for(let i=0; i<data.length; i++)
                 {
@@ -191,22 +191,21 @@ function changePassword()
         'id': '<?=$_SESSION['Id']?>'
     };
 
-    var showmessage = true;
+   //var showmessage = true;
 
     if (repeat != newpassword) {
         alert('Passwords do not match. Try again!');
         window.location.href = 'Settings.php';
     }
-    if (repeat == newpassword)
-    {
+    else {
         $.ajax({
             type: "post",
             dataType: "json",
-            url: 'password.php',
+            url: '../UserMenu/actions/password.php',
             data: obj,
             success: function (data) {
-                showmessage = (data.response == 'OK');
-                if (showmessage)
+                //showmessage = (data.response == 'OK');
+                if (data.response === 'OK')
                 {
                     alert('Password changes successfully!');
                 }
@@ -219,7 +218,6 @@ function changePassword()
             }
         });
     }
-
 }
   function  changeUsername()
   {
@@ -227,11 +225,11 @@ function changePassword()
       $.ajax({
           type: "post",
           dataType: "json",
-          url: 'username.php',
+          url: '../UserMenu/actions//username.php',
           data: {'newUsername': newname,'id' : '<?=$_SESSION['Id']?>'},
           success: function (data) {
 
-              if(data.response=='OK')
+              if(data.response ==='OK')
               {
 
                   alert('Username change successfully!');

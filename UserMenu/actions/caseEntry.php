@@ -8,7 +8,8 @@ $conn = new mysqli("localhost", "root", "", "project_web");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
+$mylat=$_POST['lat'];
+$mylong = $_POST['long'];
 $array_table = array();
 $sql="SELECT name_store,latitude, longitude,store_add FROM store";
 $result=mysqli_query($conn,$sql);
@@ -16,7 +17,12 @@ $result=mysqli_query($conn,$sql);
  while($row = mysqli_fetch_assoc($result))
  {
      $temp=array('name'=>$row['name_store'],'lat'=>$row['latitude'], 'lng'=>$row['longitude'],'address'=>$row['store_add']);
-     array_push($array_table,$temp);
+     //check distance
+     if(computeDistance($mylat,$mylong,$row['latitude'],$row['longitude'])< 900)
+     {
+         array_push($array_table,$temp);
+     }
+
  }
 mysqli_close($conn);
 
