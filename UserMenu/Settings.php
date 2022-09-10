@@ -143,9 +143,8 @@ if (!isset($_SESSION['user']))
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script>
-
     $("#cases-tab").click(function () {show_table_my_case() } );
-    //$("#visit-tab").click(function () {show_table_my_visits() } );
+    $("#visit-tab").click(function () {show_table_my_visits() } );
     const triggerTabList = document.querySelectorAll('#setTab button')
     triggerTabList.forEach(triggerEl => {
         const tabTrigger = new bootstrap.Tab(triggerEl)
@@ -164,13 +163,17 @@ if (!isset($_SESSION['user']))
             dataType: "json",
             url: '../UserMenu/actions/tableVisits.php',
             success: function (data) {
-                for(let i=0; i<data.length; i++)
+                if(data[0].test_date != null)
                 {
-                    html+='<tr> <th scope="row">'+(i+1)+'</th>';
-                    html+='<td>'+data[i].name_store +'</td>'+'<td>'+data[i].date_of +'</td> </tr>';
-
+                    for (let i = 0; i < data.length; i++)
+                    {
+                        html += '<tr> <th scope="row">' + (i + 1) + '</th>';
+                        html += '<td>' + data[i].name_store + '</td>' + '<td>' + data[i].date_of + '</td> </tr>';
+                   }
                 }
-                if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td>You have not submitted any visit</td> </tr>'; }
+
+                html+='<tr> <th scope="row">1</th> <td>You have not submitted any visit</td> </tr>';
+
                 $("#table_my_visits").append(html);
 
             },
