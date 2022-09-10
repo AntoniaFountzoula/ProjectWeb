@@ -10,6 +10,8 @@ if ($conn->connect_error) {
 }
 $mylat=$_POST['lat'];
 $mylong = $_POST['long'];
+#$mylat=38.2501;
+#$mylong = 21.7379;
 $array_table = array();
 $sql="SELECT name_store,latitude, longitude,store_add FROM store";
 $result=mysqli_query($conn,$sql);
@@ -17,7 +19,8 @@ $result=mysqli_query($conn,$sql);
  while($row = mysqli_fetch_assoc($result))
  {
      $temp=array('name'=>$row['name_store'],'lat'=>$row['latitude'], 'lng'=>$row['longitude'],'address'=>$row['store_add']);
-     //check distance
+     # echo $row['name_store']."\n ";
+     //check distance (change the number according to exercise)
      if(computeDistance($mylat,$mylong,$row['latitude'],$row['longitude'])< 900)
      {
          array_push($array_table,$temp);
