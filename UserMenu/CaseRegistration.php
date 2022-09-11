@@ -122,11 +122,11 @@ function check_day() {
     $.ajax({
         type: "post",
         dataType: "json",
-        url: 'checkday.php',
+        url: '../UserMenu/actions/checkday.php',
         data: {'test_date': day, 'id': '<?=$_SESSION['Id']?>'},
         success: function (data) {
 
-            if (data.response == 'OK')
+            if (data.response === 'OK')
             {
               alert('You have submit your diagnosis.');
             }
@@ -134,12 +134,14 @@ function check_day() {
             {
                alert('14 days must transpire until you submit your next Covid-19 diagnosis!');
             }
+            window.location.href ='CaseRegistration.php';
         },
         error: function (error) {
-
+            alert(error.statusText);
             console.log(error);
+            window.location.href ='CaseRegistration.php';
         }
     });
-    window.location.href ='CaseRegistration.php';
+
 }
 </script>

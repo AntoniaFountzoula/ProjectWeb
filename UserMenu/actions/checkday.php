@@ -4,9 +4,7 @@
 
     $current_day= $_POST['test_date'];
     $id = $_POST['id'];
-
-
-    $sql1 = "INSERT INTO covidcase(CASE_ID, TEST_DATE ) VALUES ('$id' , '$current_day')";
+    $sql1 = "INSERT INTO covidcase( test_date, case_id) VALUES ('$current_day',$id )";
 
     if(validDte($id,$current_day))
     {
@@ -27,7 +25,7 @@
     {
         $conn = new mysqli("localhost", "root", "", "project_web");
 
-        $sql2 ="SELECT test_date FROM covidcase WHERE case_id ='$id' ";
+        $sql2 ="SELECT test_date FROM covidcase WHERE case_id = $id ";
         $resu = mysqli_query($conn,$sql2);
         $ans= true;
         if(mysqli_num_rows($resu) > 0)

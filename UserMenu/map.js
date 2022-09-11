@@ -42,7 +42,7 @@ navigator.geolocation.getCurrentPosition(function (location) {
                         if (response.length !== 0) {
                             for (var i = 0; i < response.length; i++) {
                                 var xy = new L.LatLng(response[i].lat, response[i].lng)
-                                let marker = new L.marker(xy).addTo(map).bindPopup("<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address + " </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm \" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\">Submit Visit</button> ");
+                                let marker = new L.marker(xy).addTo(map).bindPopup("<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address + " </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm \" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\" value="+response[i].id+">Submit Visit</button> ");
                                 markerArray.push(marker);
                             }
                         }
