@@ -42,7 +42,7 @@ navigator.geolocation.getCurrentPosition(function (location) {
                         if (response.length !== 0) {
                             for (var i = 0; i < response.length; i++) {
                                 var xy = new L.LatLng(response[i].lat, response[i].lng)
-                                let marker = new L.marker(xy).addTo(map).bindPopup("<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address + " </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm \" data-bs-toggle=\"modal\" data-bs-target=\"#staticBackdrop\" value="+response[i].id+">Submit Visit</button> ");
+                                let marker = new L.marker(xy).addTo(map).bindPopup("<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address + " </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()'  data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button> ");
                                 markerArray.push(marker);
                             }
                         }
@@ -75,7 +75,29 @@ function closure(marker,map){
     }
 
 }
+function submit_visit(){
+    var element=document.getElementsByClassName('v_button');
+    let id =element[0].getAttribute('value');
+    console.log(id);
+    $("#visit_button").click(function (){
+        let approximation= document.getElementById('approximation_value');
+        $.ajax({
+            url:'../UserMenu/actions/submit_visit.php',
+            type:'post',
+            dataType: 'json',
+            data:{'id_store':id,'approximation':approximation},
+            success:function (response) {
+                // alert(response.status);
+            },
+            error:function (error) {
+                alert(error);
+            },
 
+        });
+
+    });
+
+}
 function deleteitem(markerArray ,map) {
 
     for (let m = 0; m < markerArray.length; m++) {

@@ -106,14 +106,14 @@ if (!isset($_SESSION['user']))
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Entry of visitation in this poi.Please insert approximate people who visited this exact location.</label>
-                        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="number of approximation">
+                        <label for="approximation_value" class="form-label">Entry of visitation in this poi.Please insert approximate people who visited this exact location.</label>
+                        <input type="text" class="form-control" id="approximation_value" placeholder="number of approximation">
                     </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <input type="submit"  name="case_entry" class="btn btn-primary" value="Submit"/>
+                    <input type="submit"  name="case_entry" class="btn btn-primary" id="visit_button" value="Submit"/>
                 </div>
             </div>
         </div>

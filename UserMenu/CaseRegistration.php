@@ -138,7 +138,6 @@ function check_day() {
         },
         error: function (error) {
             alert(error.statusText);
-            console.log(error);
             window.location.href ='CaseRegistration.php';
         }
     });
