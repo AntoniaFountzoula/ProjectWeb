@@ -80,17 +80,24 @@ function submit_visit(){
     let id =element[0].getAttribute('value');
     console.log(id);
     $("#visit_button").click(function (){
-        let approximation= document.getElementById('approximation_value');
+        let approximation= document.getElementById('approximation_value').value;
         $.ajax({
             url:'../UserMenu/actions/submit_visit.php',
             type:'post',
             dataType: 'json',
             data:{'id_store':id,'approximation':approximation},
             success:function (response) {
-                // alert(response.status);
+                 //console.log(response.Status);
+                 if(response.Status=='Success'){
+                     alert("Your visit submitted  successfully ");
+                 }else{
+                     alert("Your visit did not submit. \n Please try again! ");
+                 }
+                window.location.href ='UserMenu.php';
             },
             error:function (error) {
-                alert(error);
+                alert(error.statusText);
+                window.location.href ='UserMenu.php';
             },
 
         });
