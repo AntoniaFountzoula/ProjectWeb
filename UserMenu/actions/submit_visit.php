@@ -17,16 +17,29 @@ $id_store = $_POST['id_store'];
 */
 date_default_timezone_set('Europe/Athens');
 $date =  (new DateTime(''))->format('Y-m-d H:i:s');
-echo $date;
 $apro = $_POST['approximation'];
 
 $sql="INSERT INTO visit(date_of, id_user, id_store) VALUES ('$date','$id_user','$id_store')";
 echo $sql;
-//it also needed a query for approximation
-if(mysqli_query($conn,$sql)){
-    echo json_encode(array("Status"=>'Success'));
+
+$sql_approximation="INSERT INTO popular_times( pop_store_id, approximation, date_approximation) VALUES ('$id_store',$apro,'$date')";
+
+
+if(mysqli_query($conn,$sql))
+{
+    if($apro!="")
+    {
+        if(mysqli_query($conn,$sql_approximation));
+        {
+            echo json_encode(array("Status"=>'Success'));
+        }
+    }
+    else{
+        echo json_encode(array("Status"=>'Success'));
+    }
 }
 else{
     echo json_encode(array("Status"=>'Failed!'));
 }
+
 mysqli_close($conn);
