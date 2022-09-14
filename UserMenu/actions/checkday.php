@@ -13,6 +13,14 @@
             echo json_encode(array("response"=>'OK'));
 
         }
+        /*
+         * Update the status of the user visit
+         * that there are register at most 7 day
+         * before the registration of covid-case
+        */
+        $date_condition=date_sub((new DateTime($current_day)),date_interval_create_from_date_string("7 days"))->format('Y-m-d H:i:s');
+        $sql_update="UPDATE visit SET status=1 WHERE id_user=$id AND date_of>='$date_condition'";
+        mysqli_query($conn,$sql_update);
     }
     else
     {
