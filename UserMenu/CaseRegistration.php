@@ -83,22 +83,13 @@ if (!isset($_SESSION['user']))
                         <table class="table table-hover">
                             <thead class="table-info">
                             <tr>
+                                <th scope="col">#</th>
                                 <th scope="col">Stores(PIOs)</th>
-                                <th scope="col">Date</th>
-                                <th scope="col"> Covid19-case</th>
+                                <th scope="col">Date of covid-case</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                            </tr>
+                            <tbody id="possible-contact">
+
                             </tbody>
                         </table>
                     </div>
@@ -116,6 +107,7 @@ if (!isset($_SESSION['user']))
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <script>
+    show_table();
 function check_day() {
     let day = document.getElementById('datetest').value;
 
@@ -141,6 +133,33 @@ function check_day() {
             window.location.href ='CaseRegistration.php';
         }
     });
+
+}
+function show_table()
+{
+    var html;
+
+
+    $.ajax({
+        type: "post",
+        dataType: "json",
+        url: '../UserMenu/actions/possible_contact.php',
+        success: function (data) {
+            for(let i=0; i<data.length; i++)
+            {
+                html+='<tr> <th scope="row">'+(i+1)+'</th>';
+                html+='<td>'+data[i].name +'</td> ';
+                html+='<td>'+data[i].date +'</td> </tr>';
+
+
+            }
+            if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td> There are nto found possible contacts with covid-case for you</td> </tr>'; }
+            $("#possible-contact").append(html);
+
+        },
+
+    });
+
 
 }
 </script>
