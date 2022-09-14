@@ -8,8 +8,6 @@ $conn = new mysqli("localhost", "root", "", "project_web");
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-/* Check that I am not covid-case*/
-
 /*
  * Take the id of stores that user haven been visit
  * the last 7 days
@@ -36,9 +34,8 @@ foreach ($my_visit_last_7days as $i)
     $date_earlier=date_sub($temp_date,date_interval_create_from_date_string("2 hours"))->format('Y-m-d H:i:s');
     $date_latester= date_add($temp_date,date_interval_create_from_date_string("2 hours"))->format('Y-m-d H:i:s');
     $sql2="SELECT store.name_store ,visit.date_of FROM visit
-left join  store on visit.id_store =store.store_id
-and store.store_id='$temp_id'
-                        where visit.id_store='$temp_id'and visit.status=1 and(visit.date_of>='$date_earlier' or visit.date_of<='$date_latester');";
+            left join  store on visit.id_store =store.store_id and store.store_id='$temp_id'
+            where visit.id_store='$temp_id'and visit.id_user!='$id' and visit.status=1 and(visit.date_of>='$date_earlier' or visit.date_of<='$date_latester');";
     if($result2=mysqli_query($conn,$sql2))
     {
         if(mysqli_num_rows($result2)>0)
@@ -50,6 +47,7 @@ and store.store_id='$temp_id'
         }
     }
 }
+mysqli_close($conn);
 
 echo json_encode($my_possible_contact);
 

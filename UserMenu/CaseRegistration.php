@@ -153,7 +153,7 @@ function show_table()
 
 
             }
-            if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td> There are nto found possible contacts with covid-case for you</td> </tr>'; }
+            if(data.length === 0) {html+='<tr> <th scope="row">1</th> <td> We did not find possible contacts with covid-case for you</td> <td></td></tr>'; }
             $("#possible-contact").append(html);
 
         },

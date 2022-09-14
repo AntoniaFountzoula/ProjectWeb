@@ -165,7 +165,7 @@ if (!isset($_SESSION['user']))
             dataType: "json",
             url: '../UserMenu/actions/tableVisits.php',
             success: function (data) {
-                if(data[0].test_date !== null)
+                if(data[0].test_date != null)
                 {
                     for (let i = 0; i < data.length; i++)
                     {
