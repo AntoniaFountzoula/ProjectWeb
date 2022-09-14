@@ -9,7 +9,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 /*
- * Take the id of stores that user haven been visit
+ * Take the id of stores that user haven been visited
  * the last 7 days
  */
 date_default_timezone_set('Europe/Athens');
@@ -30,19 +30,24 @@ $my_possible_contact=array();
 foreach ($my_visit_last_7days as $i)
 {
     $temp_id=$i['id_store'];
-    $temp_date=new DateTime($i['date']);
-    $date_earlier=date_sub($temp_date,date_interval_create_from_date_string("2 hours"))->format('Y-m-d H:i:s');
-    $date_latester= date_add($temp_date,date_interval_create_from_date_string("2 hours"))->format('Y-m-d H:i:s');
-    $sql2="SELECT store.name_store ,visit.date_of FROM visit
-            left join  store on visit.id_store =store.store_id and store.store_id='$temp_id'
-            where visit.id_store='$temp_id'and visit.id_user!='$id' and visit.status=1 and(visit.date_of>='$date_earlier' or visit.date_of<='$date_latester');";
+    $temp_date=$i['date'];
+   // $date_earlier=date_sub($temp_date,date_interval_create_from_date_string("2 hours"))->format('Y-m-d H:i:s');
+    //$date_latester= date_add($temp_date,date_interval_create_from_date_string("2 hours"))->format('Y-m-d H:i:s');
+    $sql2="SELECT name_store ,date_of,TIMESTAMPDIFF(MINUTE,visit.date_of,'$temp_date')as diff
+         FROM visit
+        left join  store on store.store_id=visit.id_store
+        where visit.id_store=$temp_id and visit.id_user!=$id and visit.status=1 ";
     if($result2=mysqli_query($conn,$sql2))
     {
         if(mysqli_num_rows($result2)>0)
         {
             while($row=mysqli_fetch_assoc($result2))
             {
-                array_push($my_possible_contact,array('name'=>$row['name_store'],'date'=>$row['date_of']));
+                if(abs($row['diff'])<= 120)
+                {
+                    array_push($my_possible_contact,array('name'=>$row['name_store'],'date'=>$row['date_of']));
+                }
+
             }
         }
     }

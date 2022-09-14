@@ -1,4 +1,23 @@
 <?php
+$file_array=array();
+array_push($file_array,'./b37e935e/generic.json');
+array_push($file_array,'./b37e935e/generic_2.json');
+array_push($file_array,'./b37e935e/generic_3.json');
+array_push($file_array,'./b37e935e/generic_4.json');
+array_push($file_array,'./b37e935e/generic_5.json');
+array_push($file_array,'./b37e935e/specific_1.json');
+array_push($file_array,'./b37e935e/specific_2.json');
+array_push($file_array,'./b37e935e/specific_3.json');
+array_push($file_array,'./b37e935e/specific_4.json');
+array_push($file_array,'./b37e935e/specific_5.json');
+array_push($file_array,'./StarterPack1/generic.json');
+array_push($file_array,'./StarterPack1/starting_pois.json');
+foreach ($file_array as $i)
+{
+    echo $i."\n";
+    bulk_insert_stores($i,true);
+}
+
 function bulk_insert_stores($filename,bool $use_path=false)
 {
     // Create connection
@@ -9,8 +28,8 @@ function bulk_insert_stores($filename,bool $use_path=false)
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-    // it will contain the ids for existing stores
-    $existing_id = array();
+    // it will contain the names for existing stores
+    $existing_stores = array();
 
     //Get the contents of the jsonfile
     $jsonfile = file_get_contents($filename, $use_path);
@@ -19,11 +38,11 @@ function bulk_insert_stores($filename,bool $use_path=false)
     //Get the ids for existing stores from database
     $ids = mysqli_query($conn, "SELECT store_id,name_store FROM store");
     while ($row = mysqli_fetch_assoc($ids)) {
-        echo $row['name_store'];
-        echo " ";
-        echo $row['store_id'];
-        echo "\n\n";
-        array_push($existing_id, $row['store_id']);
+        //echo $row['name_store'];
+        //echo " ";
+       // echo $row['store_id'];
+        //echo "\n\n";
+        array_push($existing_stores, $row['name_store']);
 
     }
 
@@ -39,7 +58,7 @@ function bulk_insert_stores($filename,bool $use_path=false)
         $lat = ($obj[$i])->coordinates->lat;
         // remove commas for address
         $address = "'" . str_replace(",", " ", ($obj[$i])->address) . "'";
-        $id = "'" . ($obj[$i])->id . "'";
+       // $id = "'" . ($obj[$i])->id . "'";
         //convert type (type is an array field)into a string
         $type_array = join(" ", ($obj[$i])->types);
         $type_array = "'" . $type_array . "'";
@@ -47,25 +66,26 @@ function bulk_insert_stores($filename,bool $use_path=false)
 
         //remove single quote(throw an error when we try to make query in database)
         $name = str_replace("'", '', $name);
+        //check if the store already exists in our database
+        $condition = array_search($name, $existing_stores);
         $name = "'" . $name . "'";
         $tspend = 0;
-        //check if the store already exists in our database
-        $condition = array_search(($obj[$i])->id, $existing_id);
+
         /*
          * The array_search function it will return a boolean value(false)
          * if it does not find the current id in the existing_id array
         */
         if (gettype($condition) == 'boolean') {
-            $temp = array('id' => $id, 'name' => $name, 'time_spend' => $tspend, 'address' => $address, 'lng' => $lng, 'lat' => $lat, 'type' => $type_array);
+            $temp = array('name' => $name, 'time_spend' => $tspend, 'address' => $address, 'lng' => $lng, 'lat' => $lat, 'type' => $type_array);
             array_push($param_array, $temp);
         }
     }
 
     // Check if there are duplicate rows in param_array
-    #echo "size of before unique: ".sizeof($param_array)."\n";
-    $param_array = unique_multidim_array($param_array, 'id');
+    echo "size of before unique: ".sizeof($param_array)."\n";
+    $param_array = unique_multidim_array($param_array, 'name');
 
-    # echo "size of after unique: ".sizeof($param_array)."\n";
+     echo "size of after unique: ".sizeof($param_array)."\n";
 
     foreach ($param_array as $i) {
         $params_query .= "(" . join(",", $i) . "),";
@@ -73,7 +93,7 @@ function bulk_insert_stores($filename,bool $use_path=false)
     //Remove the last comma from query
     $params_query = rtrim($params_query, ",");
 
-    $sql = "INSERT INTO store VALUES $params_query";
+    $sql = "INSERT INTO  store (name_store,time_spent,store_add,longitude,latitude,type_store)VALUES $params_query";
     echo "\n \n";
     echo $sql;
     if ($params_query != "") {
@@ -88,8 +108,9 @@ function bulk_insert_stores($filename,bool $use_path=false)
     mysqli_close($conn);
 
 }
-//https://www.php.net/manual/en/function.array-unique.php#116302
 
+
+//https://www.php.net/manual/en/function.array-unique.php#116302
 function unique_multidim_array($array, $key) {
     $temp_array = array();
     $i = 0;
