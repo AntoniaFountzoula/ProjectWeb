@@ -53,8 +53,6 @@ $("#show_poi").click(function () {
                     alert('There are not PIO close to you!');
                 }
 
-                console.log(markerArray);
-
             },
             error: function (error) {
                 console.log(error);
@@ -65,6 +63,10 @@ $("#show_poi").click(function () {
 
 $("#search").click(function (){
     deleteitem(search_markArray, map);
+    if (markerArray.length !== 0)
+    {
+        deleteitem(markerArray, map);
+    }
     let category= document.getElementById('category').value;
     $.ajax({
         type: 'post',
