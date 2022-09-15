@@ -1,6 +1,7 @@
+var map;
 navigator.geolocation.getCurrentPosition(function (location) {
         // Initialize the map
-        const map = L.map('map');
+        map = L.map('map');
         var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
         var pos={'lat':location.coords.latitude, 'long':location.coords.longitude};
 
@@ -26,9 +27,10 @@ navigator.geolocation.getCurrentPosition(function (location) {
      L.circle(latlng,{radius: 20, color: 'green', fillColor: '#00ff33', fillOpacity: 0.5}).addTo(map);
 
         let markerArray = Array();
-
+        let search_markArray = Array();
 
         $("#show_poi").click(function () {
+            deleteitem(search_markArray, map);
             if (markerArray.length !== 0) {
                 deleteitem(markerArray, map);
             } else {
@@ -62,10 +64,43 @@ navigator.geolocation.getCurrentPosition(function (location) {
 
         });
 
+    $("#search").click(function (){
+        deleteitem(search_markArray, map);
+        let category= document.getElementById('category').value;
+        $.ajax({
+            type: 'post',
+            // async: false,
+            url: '../UserMenu/actions/search.php',
+            dataType: 'json',
+            data: {'category':category},
+            success: function (response) {
+                if (response.length !== 0) {
+                    console.log(response);
+                    for (var i = 0; i < response.length; i++) {
+                        var xy = new L.LatLng(response[i].lat, response[i].lng)
+                        let marker = new L.marker(xy).addTo(map).bindPopup("<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address + " </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()'  data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button> ");
+                         search_markArray.push(marker);
+                    }
+                }
+                else{
+                    alert('There are not PIO for the category '+category+' !');
+                }
+
+
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
 
 
 
     });
+
+
+
 
 
 function closure(marker,map){

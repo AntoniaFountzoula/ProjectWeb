@@ -11,7 +11,7 @@ if (!isset($_SESSION['user']))
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
 
@@ -69,15 +69,33 @@ if (!isset($_SESSION['user']))
         <div class="text-center col-12 mb-3">
              Welcome <?php echo $_SESSION['user'] ?>
         </div>
+    <div class="w-75">
+        <div class="input-group input-group-md p-3  ">
+            <label  class="form-label col-1" for="category"> <h5 >Search:</h5></label>
 
-        <div class="input-group mb-3 w-75 p-2">
-            <input type="text" class="form-control border-end-0 border" placeholder="Search..." aria-label="Search" aria-describedby="Search">
-            <span class="input-group-append">
-                 <button class="btn btn-outline-secondary " type="button" id="Search">
-                <img src="../icons/search.svg" alt="search-icon">
-            </button>
-            </span>
+            <select class="form-select " id="category">
+                <option>store</option>
+                <option value="shoe_store">Shoe store</option>
+                <option value="clothing_store">Clothing store</option>
+                <option>pharmacy</option>
+                <option>food</option>
+                <option>cafe</option>
+                <option>bakery</option>
+                <option>restaurant</option>
+                <option>bar</option>
+                <option>supermarket</option>
+                <option value="electronics_store">Electronic store</option>
+                <option value="meal_takeaway"> take away</option>
+                <option value="night_club"> night club</option>
+                <option value="post_office">post office</option>
+                <option value="car_rental"> Car rental</option>
+            </select>
+            <button class="btn btn-outline-secondary"  id="search" type="button"><img src="../icons/search.svg"></button>
         </div>
+
+    </div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="col-md-9">
@@ -106,7 +124,7 @@ if (!isset($_SESSION['user']))
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="approximation_value" class="form-label">Entry of visitation in this poi.Please insert approximate people who visited this exact location.</label>
+                        <label for="approximation_valueς" class="form-label">Entry of visitation in this poi.Please insert approximate people who visited this exact location.</label>
                         <input type="text" class="form-control" id="approximation_value" placeholder="number of approximation">
                     </div>
 
