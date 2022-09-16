@@ -15,9 +15,9 @@ array_push($file_array,'./StarterPack1/starting_pois.json');
 foreach ($file_array as $i)
 {
     echo $i."\n";
-    bulk_insert_stores($i,true);
+   // bulk_insert_stores($i,true);
+    bulk_insert_popular_times($i,true);
 }
-
 function bulk_insert_stores($filename,bool $use_path=false)
 {
     // Create connection
@@ -108,7 +108,63 @@ function bulk_insert_stores($filename,bool $use_path=false)
     mysqli_close($conn);
 
 }
+function bulk_insert_popular_times($filename, bool $use_path=false)
+{
+    // Create connection
+    $conn = new mysqli("localhost", "root", "", "project_web");
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
+    $array_existing_id= array();
+    $r=mysqli_query($conn,"SELECT id_of_store FROM popular_times");
+    while ($row=mysqli_fetch_assoc($r))
+    {
+        array_push($array_existing_id,$row['id_of_store']);
+    }
+
+    //Get the contents of the jsonfile
+    $jsonfile = file_get_contents($filename, $use_path);
+    $obj = json_decode($jsonfile);
+    $query_params="";
+    for ($i = 0; $i < sizeof($obj); $i++)
+    {
+        //remove single quote(throw an error when we try to make query in database)
+        $name = str_replace("'", '', ($obj[$i])->name);
+        $popular_object=($obj[$i])->populartimes;
+        $date=array_hours_per_day($popular_object);
+        echo "\n";
+        $result=mysqli_query($conn,"Select store_id from store where name_store like '%$name%' ");
+        if(mysqli_num_rows($result)==1)
+        {
+            echo" I have result!\n";
+            while($row=mysqli_fetch_assoc($result))
+            {
+                //search if already have data in populartimes for a given store
+                $condition = array_search($row['store_id'], $array_existing_id);
+                echo $condition;
+                if (gettype($condition) == 'boolean')
+                {
+                    $query_params .= bulk_popular_times_sql($date, $row['store_id']);
+                }
+            }
+
+        }
+
+    }
+
+    $query_params=rtrim($query_params,",");
+    echo $query_params;
+
+    $sql="INSERT INTO popular_times(date, id_of_store, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23) VALUES $query_params";
+
+    if($query_params!="")
+    {
+        mysqli_query($conn,$sql);
+    }
+    mysqli_close($conn);
+}
 
 //https://www.php.net/manual/en/function.array-unique.php#116302
 function unique_multidim_array($array, $key) {
@@ -124,4 +180,35 @@ function unique_multidim_array($array, $key) {
         $i++;
     }
     return $temp_array;
+}
+
+function array_hours_per_day($popular_times)
+{
+    $string_popular_encode=json_encode($popular_times);
+    $decode_populatimes=json_decode($string_popular_encode);
+    $dates= array();
+    for($i=0;$i<7;$i++)
+    {
+        $array_hours= array();
+        for($j=0;$j<23;$j++)
+        {
+            array_push($array_hours,($decode_populatimes[$i])->data[$j]);
+        }
+        array_push($dates,$array_hours);
+    }
+
+
+    return $dates;
+}
+function bulk_popular_times_sql($dates, $id)
+{
+    $temp='';
+    for($i=0; $i<sizeof($dates); $i++)
+    {
+
+        $temp.="("."$i,"."$id,".join(",",$dates[$i])."),";
+
+    }
+
+    return $temp;
 }
