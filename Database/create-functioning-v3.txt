@@ -1,0 +1,93 @@
+DROP DATABASE IF EXISTS project_web;
+CREATE DATABASE IF NOT EXISTS project_web;
+
+USE project_web;
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE user (
+user_id INT NOT NULL AUTO_INCREMENT,
+user_type ENUM('user','admin'),
+username VARCHAR(255) NOT NULL,
+email VARCHAR(255) NOT NULL,
+password VARCHAR(255) NOT NULL,
+PRIMARY KEY(user_id)
+);
+
+DROP TABLE IF EXISTS covidcase;
+CREATE TABLE covidcase (
+row_num INT NOT NULL AUTO_INCREMENT,
+test_date DATETIME NOT NULL,
+covid_status BOOLEAN DEFAULT true,
+case_id INT NOT NULL,
+PRIMARY KEY(row_num),
+FOREIGN KEY(case_id) REFERENCES user(user_id),
+FOREIGN KEY(covid_status) REFERENCES visit(status)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS store;
+CREATE TABLE store (
+store_id INT NOT NULL AUTO_INCREMENT,
+name_store VARCHAR(255) NOT NULL,
+time_spent INT DEFAULT NULL,
+store_add VARCHAR(255) NOT NULL,
+longitude FLOAT NOT NULL,
+latitude FLOAT NOT NULL,
+type_store VARCHAR(255) NOT NULL,
+PRIMARY KEY(store_id)
+);
+
+DROP TABLE IF EXISTS visit;
+CREATE TABLE visit (
+visit_id INT NOT NULL AUTO_INCREMENT,
+date_of DATETIME NOT NULL,
+id_user INT NOT NULL,
+id_store INT NOT NULL,
+status BOOLEAN DEFAULT FALSE,
+PRIMARY KEY(visit_id),
+FOREIGN KEY(id_user) REFERENCES user(user_id),
+FOREIGN KEY(id_store) REFERENCES store(store_id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS user_aprox;
+CREATE TABLE user_aprox (
+row_a INT NOT NULL AUTO_INCREMENT,
+aprox_store_id  INT NOT NULL,
+approximation INT NOT NULL,
+date_approximation DATETIME NOT NULL,
+PRIMARY KEY(row_a),
+FOREIGN KEY(aprox_store_id) REFERENCES store(store_id)
+ON DELETE CASCADE ON UPDATE CASCADE
+);
+create table popular_times
+(
+	pop_store_id int auto_increment
+		primary key,
+	date varchar(50) null,
+	id_of_store int not null,
+	h1 int null,
+	h2 int null,
+	h3 int null,
+	h4 int null,
+	h5 int null,
+	h6 int null,
+	h7 int null,
+	h8 int null,
+	h9 int null,
+	h10 int null,
+	h11 int null,
+	h12 int null,
+	h13 int null,
+	h14 int null,
+	h15 int null,
+	h16 int null,
+	h17 int null,
+	h18 int null,
+	h19 int null,
+	h20 int null,
+	h21 int null,
+	h22 int null,
+	h23 int null
+);
+
