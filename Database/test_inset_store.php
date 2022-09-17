@@ -206,7 +206,8 @@ function bulk_popular_times_sql($dates, $id)
     for($i=0; $i<sizeof($dates); $i++)
     {
 
-        $temp.="("."$i,"."$id,".join(",",$dates[$i])."),";
+        $date=$i+1;
+        $temp.="("."$date,"."$id,".join(",",$dates[$i])."),";
 
     }
 
