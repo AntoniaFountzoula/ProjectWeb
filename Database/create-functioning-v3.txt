@@ -66,6 +66,7 @@ create table popular_times
 		primary key,
 	date varchar(50) null,
 	id_of_store int not null,
+	h0 int null,
 	h1 int null,
 	h2 int null,
 	h3 int null,

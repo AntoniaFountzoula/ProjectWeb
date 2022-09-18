@@ -40,7 +40,7 @@ function approximation($conn,$id,$date,$hour)
     {
         if($hour>23)
         {
-            $hour=1;
+            $hour=0;
         }
         $columns_of_table .= "h$hour,";
         $hour+=1;
@@ -81,7 +81,7 @@ function percentage_approximation($conn,$id,$date,$hour,$average)
 
     $column_now="h$hour";
     $columns_of_table = "";
-    for ($i =1; $i <24 ; $i++) {
+    for ($i =0; $i <24 ; $i++) {
         $columns_of_table .= "h$i,";
     }
     $columns_of_table = rtrim($columns_of_table, ",");
@@ -90,7 +90,7 @@ function percentage_approximation($conn,$id,$date,$hour,$average)
     $sum=0;
     $result = mysqli_query($conn, $sql);
     while ($row = mysqli_fetch_row($result)) {
-        $sum += ($row[0]+$row[1]+$row[2]+$row[3]+$row[4]+ $row[5]+ $row[6]+ $row[7]+ $row[8]+ $row[9]+ $row[10]+ $row[11]+ $row[12]+ $row[13]+ $row[14]+ $row[15] + $row[16]+ $row[17]+ $row[18]+ $row[19]+ $row[20]+ $row[21]+$row[22] );
+        $sum += ($row[0]+$row[1]+$row[2]+$row[3]+$row[4]+ $row[5]+ $row[6]+ $row[7]+ $row[8]+ $row[9]+ $row[10]+ $row[11]+ $row[12]+ $row[13]+ $row[14]+ $row[15] + $row[16]+ $row[17]+ $row[18]+ $row[19]+ $row[20]+ $row[21]+$row[22]+$row[23]);
     }
     $result2=mysqli_query($conn,$sql_now);
     $per=0;

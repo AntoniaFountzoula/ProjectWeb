@@ -157,7 +157,7 @@ function bulk_insert_popular_times($filename, bool $use_path=false)
     $query_params=rtrim($query_params,",");
     echo $query_params;
 
-    $sql="INSERT INTO popular_times(date, id_of_store, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23) VALUES $query_params";
+    $sql="INSERT INTO popular_times(date, id_of_store,h0, h1, h2, h3, h4, h5, h6, h7, h8, h9, h10, h11, h12, h13, h14, h15, h16, h17, h18, h19, h20, h21, h22, h23) VALUES $query_params";
 
     if($query_params!="")
     {
@@ -190,7 +190,7 @@ function array_hours_per_day($popular_times)
     for($i=0;$i<7;$i++)
     {
         $array_hours= array();
-        for($j=0;$j<23;$j++)
+        for($j=0;$j<24;$j++)
         {
             array_push($array_hours,($decode_populatimes[$i])->data[$j]);
         }
