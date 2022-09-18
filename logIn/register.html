@@ -5,6 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta charset="UTF-8">
     <title>Covid-19Finder</title>
     <link rel="stylesheet" href="forms.css">
@@ -32,19 +33,19 @@
     <div>
         <i style="font-size:100px;color:darkslategray" class="material-icons">person_pin</i>
         <p> Sign up </p>
-        <form method="post" action="register.php">
+        <form method="post" >
             <p>
 
-                <label><i class="material-icons">alternate_email</i>  <input type= "email" placeholder="Email" name= "email" required /></label>
+                <label><i class="material-icons">alternate_email</i>  <input type= "email" placeholder="Email" id="email" name= "email" required /></label>
             </p>
             <p>
-                <label><i class="material-icons">account_circle</i> <input type= "text" placeholder="Username" name= "username" required /></label>
+                <label><i class="material-icons">account_circle</i> <input type= "text" placeholder="Username" id="username" name= "username" required /></label>
             </p>
             <p>
-                <label><i class="material-icons">key</i> <input type= "password" placeholder="Password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></label>
+                <label><i class="material-icons">key</i> <input type= "password" placeholder="Password"  id="password" name="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required/></label>
             </p>
             <p>
-                <input class="submit" type="submit"  value="Register" />
+                <input class="submit" type="submit"  onclick="register()" value="Register" />
             </p>
             <p>
                 <a href="logIn.html">Already have an account? </a>
@@ -54,5 +55,37 @@
 </div>
 
 </body>
-
 </html>
+<script>
+function register()
+{
+    let username= document.getElementById('username').value;
+    let email= document.getElementById('email').value;
+    let password=document.getElementById('password').value;
+    $.ajax({
+        type: 'post',
+        url: 'register.php',
+        dataType: 'json',
+        data: {'username':username,'email':email,'password':password},
+        success:function (response) {
+           if(response.Status==="success")
+           {
+               alert('Welcome to Covid-19 Finder! You have been register successful!');
+               window.location.href='logIn.html';
+
+           }
+           else
+           {
+               alert(response.Status);
+               window.location.href='register.html';
+           }
+
+        },
+        error:function () {
+
+        },
+    });
+
+
+}
+</script>
