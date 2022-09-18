@@ -20,9 +20,9 @@ $hour = $today->format('G');
 
 while($row = mysqli_fetch_assoc($result))
 {
-    $percentage=percentage_approximation($conn,$row['id'],$date,$hour);
-    $approximation= approximation($conn,$row['id'],$date,$hour);
-    $temp=array('name'=>$row['name_store'],'lat'=>$row['latitude'], 'lng'=>$row['longitude'],'address'=>$row['store_add'],'id'=>$row['store_id'],'percentage'=>$percentage,'approximation'=>$approximation);
+    $ava=approximation($conn,$row['store_id'],$date,$hour);
+    $percentage=percentage_approximation($conn,$row['store_id'],$date,$hour,($ava*3));
+    $temp=array('name'=>$row['name_store'],'lat'=>$row['latitude'], 'lng'=>$row['longitude'],'id'=>$row['store_id'],'address'=>$row['store_add'],'percentage'=>$percentage,'approximation'=>$ava);
     # echo $row['name_store']."\n ";
 
     array_push($array_marker,$temp);
@@ -49,14 +49,13 @@ function approximation($conn,$id,$date,$hour)
     $result = mysqli_query($conn, $sql);
     $average_approximation = 0;
     while ($row = mysqli_fetch_row($result)) {
-        echo $row[0]." \t".$row[1]." \t".$row[2]."\n ";
         $average_approximation += ($row[0] + $row[1] + $row[2]);
 
     }
-    return $average_approximation/2;
+    return $average_approximation/3;
 }
 
-function percentage_approximation($conn,$id,$date,$hour)
+function percentage_approximation($conn,$id,$date,$hour,$average)
 {
 
     $column_now="h$hour";
@@ -72,12 +71,11 @@ function percentage_approximation($conn,$id,$date,$hour)
     while ($row = mysqli_fetch_row($result)) {
         $sum += ($row[0]+$row[1]+$row[2]+$row[3]+$row[4]+ $row[5]+ $row[6]+ $row[7]+ $row[8]+ $row[9]+ $row[10]+ $row[11]+ $row[12]+ $row[13]+ $row[14]+ $row[15] + $row[16]+ $row[17]+ $row[18]+ $row[19]+ $row[20]+ $row[21]+$row[22] );
     }
-    echo $sum."\n";
     $result2=mysqli_query($conn,$sql_now);
     $per=0;
     while ($row=mysqli_fetch_row($result2))
     {
-        $per=($sum!=0)?$row[0]/$sum: 0;
+        $per=($sum!=0)?$average/$sum: 0;
     }
 
     return ($per*100);

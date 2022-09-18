@@ -9,6 +9,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
 
     }).addTo(map);
 
+// create custom icon
+IconStyleGreen = L.icon({
+    iconUrl: '../icons/marker-green-32.png'
+});
+IconStyleOrange = L.icon({
+    iconUrl: '../icons/marker-orange-32.png'
+});
+IconStyleRed = L.icon({
+    iconUrl: '../icons/marker-red-32.png'
+});
+
 var pos;
 navigator.geolocation.getCurrentPosition(function (location) {
         var latlng = new L.LatLng(location.coords.latitude, location.coords.longitude);
@@ -50,7 +61,7 @@ $("#show_poi").click(function () {
                     }
                 }
                 else{
-                    alert('There are not PIO close to you!');
+                    alert('There are not PIOs close to you!');
                 }
 
             },
@@ -79,8 +90,31 @@ $("#search").click(function (){
                 console.log(response);
                 for (var i = 0; i < response.length; i++) {
                     var xy = new L.LatLng(response[i].lat, response[i].lng)
-                    let marker = new L.marker(xy).addTo(map).bindPopup("<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address + " </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()'  data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button> ");
-                    search_markArray.push(marker);
+                    let html="<strong>Name:</strong> " + response[i].name + "</br> "
+                        html+="<strong>Address: </strong>" + response[i].address + "</br>";
+                        html+="<strong>Approximation:</strong>"+response[i].approximation+"</br></br>";
+                        html+= "<button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()' data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button>";
+                        let marker;
+                        console.log(response[i].percentage);
+                        if(response[i].percentage<=32.0)
+                        {
+                             marker = new L.marker(xy, {icon: IconStyleGreen}).addTo(map).bindPopup(html);
+                            search_markArray.push(marker);
+                        }
+                        if(response[i].percentage<=65 && response[i].percentage>=33)
+                        {
+
+                            marker = new L.marker(xy, {icon: IconStyleOrange}).addTo(map).bindPopup(html);
+                            search_markArray.push(marker);
+                        }
+                        if(response[i].percentage>=66){
+                        marker = new L.marker(xy, {icon: IconStyleRed}).addTo(map).bindPopup(html);
+                            search_markArray.push(marker);
+                        }
+
+
+
+
                 }
             }
             else{
