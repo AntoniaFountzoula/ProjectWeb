@@ -50,12 +50,11 @@ $("#show_poi").click(function () {
             dataType: 'json',
             data: pos,
             success: function (response) {
-                if (response.length !== 0) {
+                if (response.length != 0) {
                     for (var i = 0; i < response.length; i++) {
                         var xy = new L.LatLng(response[i].lat, response[i].lng);
                         let contex="<strong>Name:</strong> " + response[i].name + "</br> <strong>Address: </strong>" + response[i].address;
-                        contex+=" "
-                        contex+=" </br></br> <button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()'  data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button> ";
+                        contex+=" </br></br><button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()' data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button>";
                         let marker = new L.marker(xy).addTo(map).bindPopup(contex);
                         markerArray.push(marker);
                     }
@@ -92,7 +91,8 @@ $("#search").click(function (){
                     var xy = new L.LatLng(response[i].lat, response[i].lng)
                     let html="<strong>Name:</strong> " + response[i].name + "</br> "
                         html+="<strong>Address: </strong>" + response[i].address + "</br>";
-                        html+="<strong>Approximation:</strong>"+response[i].approximation+"</br></br>";
+                        html+="<strong>Approximation:</strong>"+response[i].approximation+"</br>";
+                        html+="<strong>User Approximation:</strong>"+response[i].user_approx+"</br></br>";
                         html+= "<button type=\"button\" class=\"btn btn-secondary btn-sm\" data-bs-toggle=\"modal\"  onclick='submit_visit()' data-bs-target=\"#staticBackdrop\" ><div class='v_button' value="+response[i].id+">Submit Visit</div></button>";
                         let marker;
                         console.log(response[i].percentage);
@@ -149,17 +149,18 @@ function submit_visit(){
             dataType: 'json',
             data:{'id_store':id,'approximation':approximation},
             success:function (response) {
-                 //console.log(response.Status);
+                 console.log(response.Status);
                  if(response.Status=='Success'){
                      alert("Your visit submitted  successfully ");
                  }else{
                      alert("Your visit did not submit. \n Please try again! ");
                  }
-                window.location.href ='UserMenu.php';
+               // window.location.href ='UserMenu.php';
             },
             error:function (error) {
-                alert(error.statusText);
-                window.location.href ='UserMenu.php';
+                //alert(error.statusText);
+                console.log(error);
+                //window.location.href ='UserMenu.php';
             },
 
         });

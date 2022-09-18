@@ -124,7 +124,7 @@ if (!isset($_SESSION['user']))
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="approximation_valueς" class="form-label">Entry of visitation in this poi.Please insert approximate people who visited this exact location.</label>
+                        <label for="approximation_value" class="form-label">Entry of visitation in this poi.Please insert approximate people who visited this exact location.</label>
                         <input type="text" class="form-control" id="approximation_value" placeholder="number of approximation">
                     </div>
 

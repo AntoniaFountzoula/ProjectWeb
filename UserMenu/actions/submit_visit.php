@@ -20,7 +20,7 @@ $date =  (new DateTime(''))->format('Y-m-d H:i:s');
 $apro = $_POST['approximation'];
 
 $sql="INSERT INTO visit(date_of, id_user, id_store) VALUES ('$date','$id_user','$id_store')";
-echo $sql;
+//echo $sql;
 
 $sql_approximation="INSERT INTO user_aprox( aprox_store_id, approximation, date_approximation) VALUES ('$id_store',$apro,'$date')";
 
