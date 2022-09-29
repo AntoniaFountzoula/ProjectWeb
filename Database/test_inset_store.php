@@ -15,7 +15,7 @@ array_push($file_array,'./StarterPack1/starting_pois.json');
 foreach ($file_array as $i)
 {
     echo $i."\n";
-   // bulk_insert_stores($i,true);
+    bulk_insert_stores($i,true);
     bulk_insert_popular_times($i,true);
 }
 function bulk_insert_stores($filename,bool $use_path=false)
@@ -35,7 +35,7 @@ function bulk_insert_stores($filename,bool $use_path=false)
     $jsonfile = file_get_contents($filename, $use_path);
     $obj = json_decode($jsonfile);
 
-    //Get the ids for existing stores from database
+    //Get the names for existing stores from database
     $ids = mysqli_query($conn, "SELECT store_id,name_store FROM store");
     while ($row = mysqli_fetch_assoc($ids)) {
         //echo $row['name_store'];
@@ -73,7 +73,7 @@ function bulk_insert_stores($filename,bool $use_path=false)
 
         /*
          * The array_search function it will return a boolean value(false)
-         * if it does not find the current id in the existing_id array
+         * if it does not find the current name in the existing_stores array
         */
         if (gettype($condition) == 'boolean') {
             $temp = array('name' => $name, 'time_spend' => $tspend, 'address' => $address, 'lng' => $lng, 'lat' => $lat, 'type' => $type_array);

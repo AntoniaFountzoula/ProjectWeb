@@ -68,9 +68,9 @@ function register()
         dataType: 'json',
         data: {'username':username,'email':email,'password':password},
         success:function (response) {
-           if(response.Status==="success")
+           if(response.Status=="success")
            {
-               alert('Welcome to Covid-19 Finder! You have been register successful!');
+               alert('Welcome to Covid-19 Finder! You have been registered successful!');
                window.location.href='logIn.html';
 
            }

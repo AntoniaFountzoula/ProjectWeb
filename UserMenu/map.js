@@ -26,15 +26,16 @@ navigator.geolocation.getCurrentPosition(function (location) {
          pos={'lat':location.coords.latitude, 'long':location.coords.longitude};
         // Show a market at the position
         let myposition = L.marker(latlng).addTo(map);
-    // Set the view of the map
-    // with the latitude, longitude and the zoom value
-    map.setView(latlng, 13);
+        // Set the view of the map
+        // with the latitude, longitude and the zoom value
+        map.setView(latlng, 13);
         // Bind popup to the marker with a popup
         myposition.bindPopup("Here I am");
         // L.circle(latlng, {radius: 5000}).addTo(map);
-     L.circle(latlng,{radius: 20, color: 'green', fillColor: '#00ff33', fillOpacity: 0.5}).addTo(map);
+      L.circle(latlng,{radius: 20, color: 'green', fillColor: '#00ff33', fillOpacity: 0.5}).addTo(map);
 
     });
+
 let markerArray = Array();
 let search_markArray = Array();
 
@@ -150,7 +151,7 @@ function submit_visit(){
             data:{'id_store':id,'approximation':approximation},
             success:function (response) {
                  console.log(response.Status);
-                 if(response.Status=='Success'){
+                 if(response.Status==='Success'){
                      alert("Your visit submitted  successfully ");
                  }else{
                      alert("Your visit did not submit. \n Please try again! ");
